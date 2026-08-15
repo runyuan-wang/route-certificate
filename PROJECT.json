@@ -25,7 +25,7 @@
   "generic_core_imports_lingtai": false,
   "reference_integrations": {
     "lingtai": {
-      "tested_source_commit": "9bb869c4fd101ae1247db0e6b7839138f06abbe7",
+      "tested_source_commit": "2f3d885b5c2200fbad07420336ad60f0c61a800c",
       "status": "removable_reference_contract"
     }
   }

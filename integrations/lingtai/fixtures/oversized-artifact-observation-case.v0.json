@@ -1,0 +1,82 @@
+{
+  "schema_version": "lingtai.oversized-artifact-observation-case.v0",
+  "case_kind": "sanitized_real_use_reliability",
+  "source_binding": {
+    "public_pr_head": "2f3d885b5c2200fbad07420336ad60f0c61a800c",
+    "reviewed_correction_diff_sha256": "sha256:4d695d244e7972d312ef5e7b1631126183f7edfbe567f27aaea8d015e5172fa3"
+  },
+  "observation_limits": {
+    "per_file_cap_bytes": 262144,
+    "caps_changed_by_correction": false
+  },
+  "pre_correction_observation": {
+    "same_batch_concurrent_returns": 2,
+    "helper_exit_codes": [
+      0,
+      0
+    ],
+    "helper_stderr_empty": [
+      true,
+      true
+    ],
+    "raw_terminal_delivery_unchanged": true,
+    "additive_generation_present": false,
+    "declared_artifacts": [
+      {
+        "public_ref": "return-1-transcript",
+        "role": "transcript",
+        "size_bytes": 530042
+      },
+      {
+        "public_ref": "return-1-event-log",
+        "role": "event_log",
+        "size_bytes": 718274
+      },
+      {
+        "public_ref": "return-2-transcript",
+        "role": "transcript",
+        "size_bytes": 892071
+      },
+      {
+        "public_ref": "return-2-event-log",
+        "role": "event_log",
+        "size_bytes": 1693081
+      }
+    ]
+  },
+  "portable_omission_contract": {
+    "applies_only_to_advisory_observation_artifacts": true,
+    "omitted_content_is_read": false,
+    "omitted_content_digest_is_claimed": false,
+    "required_difference_metadata": [
+      "path",
+      "field",
+      "declared",
+      "observed",
+      "reason_code",
+      "size_bytes",
+      "cap_bytes"
+    ],
+    "preserve_declared_observed_size_difference": true,
+    "raw_source_remains_authoritative": true,
+    "ordinary_raw_result_unchanged": true,
+    "terminal_state_unchanged": true,
+    "one_logical_terminal_notification": true
+  },
+  "post_correction_local_gates": {
+    "focused_observer_tests": 71,
+    "parent_metadata_probe": 1,
+    "adjacent_terminal_tests": 12,
+    "copied_real_fixtures": 3,
+    "portable_receipts": 9,
+    "generation_restored": "g0000",
+    "generation_restored_for_all_copied_fixtures": true
+  },
+  "evidence_boundary": {
+    "semantic_truth_proved": false,
+    "optimization_benefit_proved": false,
+    "general_quality_gain_proved": false,
+    "production_fitness_proved": false,
+    "private_content_included": false
+  }
+}

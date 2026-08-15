@@ -11,7 +11,7 @@ import re
 from collections.abc import Callable, Mapping
 from typing import Any
 
-TESTED_LINGTAI_COMMIT = "9bb869c4fd101ae1247db0e6b7839138f06abbe7"
+TESTED_LINGTAI_COMMIT = "2f3d885b5c2200fbad07420336ad60f0c61a800c"
 NOTICE_SCHEMA = "lingtai.return-observation-notice.v0"
 _DIGEST_RE = re.compile(r"sha256:[0-9a-f]{64}\Z")
 _GENERATION_RE = re.compile(r"(?:g0000|g[1-9][0-9]*-[0-9a-f]{16})\Z")

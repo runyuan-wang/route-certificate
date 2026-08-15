@@ -507,8 +507,60 @@ class AdapterTests(unittest.TestCase):
             self.assertEqual(raw, b"raw")
             self.assertEqual(notification, {"status": "done"})
 
+    def test_oversized_artifact_case_fixture_preserves_metadata_only_boundary(self):
+        path = ROOT / "integrations/lingtai/fixtures/oversized-artifact-observation-case.v0.json"
+        case = routecert.load_json_strict(path.read_bytes())
+
+        self.assertEqual(case["schema_version"], "lingtai.oversized-artifact-observation-case.v0")
+        self.assertEqual(case["source_binding"]["public_pr_head"], TESTED_LINGTAI_COMMIT)
+        self.assertEqual(
+            case["source_binding"]["reviewed_correction_diff_sha256"],
+            "sha256:4d695d244e7972d312ef5e7b1631126183f7edfbe567f27aaea8d015e5172fa3",
+        )
+        cap = case["observation_limits"]["per_file_cap_bytes"]
+        before = case["pre_correction_observation"]
+        self.assertEqual(cap, 256 * 1024)
+        self.assertFalse(case["observation_limits"]["caps_changed_by_correction"])
+        self.assertEqual(before["same_batch_concurrent_returns"], 2)
+        self.assertEqual(before["helper_exit_codes"], [0, 0])
+        self.assertEqual(before["helper_stderr_empty"], [True, True])
+        self.assertTrue(before["raw_terminal_delivery_unchanged"])
+        self.assertFalse(before["additive_generation_present"])
+        self.assertEqual(len(before["declared_artifacts"]), 4)
+        self.assertTrue(all(row["size_bytes"] > cap for row in before["declared_artifacts"]))
+
+        contract = case["portable_omission_contract"]
+        self.assertTrue(contract["applies_only_to_advisory_observation_artifacts"])
+        self.assertFalse(contract["omitted_content_is_read"])
+        self.assertFalse(contract["omitted_content_digest_is_claimed"])
+        self.assertEqual(
+            contract["required_difference_metadata"],
+            ["path", "field", "declared", "observed", "reason_code", "size_bytes", "cap_bytes"],
+        )
+        self.assertTrue(contract["preserve_declared_observed_size_difference"])
+        self.assertTrue(contract["raw_source_remains_authoritative"])
+        self.assertTrue(contract["ordinary_raw_result_unchanged"])
+        self.assertTrue(contract["terminal_state_unchanged"])
+        self.assertTrue(contract["one_logical_terminal_notification"])
+
+        gates = case["post_correction_local_gates"]
+        self.assertEqual(
+            (gates["focused_observer_tests"], gates["parent_metadata_probe"], gates["adjacent_terminal_tests"]),
+            (71, 1, 12),
+        )
+        self.assertEqual((gates["copied_real_fixtures"], gates["portable_receipts"]), (3, 9))
+        self.assertEqual(gates["generation_restored"], "g0000")
+        self.assertTrue(gates["generation_restored_for_all_copied_fixtures"])
+        self.assertTrue(all(value is False for value in case["evidence_boundary"].values()))
+
+        rendered = json.dumps(case, sort_keys=True)
+        self.assertNotIn("chat_history.jsonl", rendered)
+        self.assertNotIn("logs/events.jsonl", rendered)
+        self.assertNotIn("/Users/", rendered)
+        self.assertEqual(routecert.load_json_strict(routecert.canonical_bytes(case)), case)
+
     def test_reference_integration_labels_exact_tested_commit(self):
-        self.assertEqual(TESTED_LINGTAI_COMMIT, "9bb869c4fd101ae1247db0e6b7839138f06abbe7")
+        self.assertEqual(TESTED_LINGTAI_COMMIT, "2f3d885b5c2200fbad07420336ad60f0c61a800c")
 
 
 class CliTests(unittest.TestCase):

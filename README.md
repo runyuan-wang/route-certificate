@@ -174,7 +174,7 @@ The generic core imports no LingTai code and knows nothing about daemon IDs, lif
 - sanitized host-input mapping into portable bindings;
 - a default-off, additive-only, raw-first return-observer seam that fails open to ordinary raw delivery.
 
-The observer contract is labelled against exact tested LingTai source commit `9bb869c4fd101ae1247db0e6b7839138f06abbe7`. This repository does not vendor the kernel patch, activate a runtime, or change ordinary result retrieval.
+The observer contract is labelled against exact tested LingTai source commit `2f3d885b5c2200fbad07420336ad60f0c61a800c`. This repository does not vendor the kernel patch, activate a runtime, or change ordinary result retrieval.
 
 ## Evidence and maturity
 
