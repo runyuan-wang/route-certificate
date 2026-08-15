@@ -1,0 +1,123 @@
+{
+  "schema_version": "routecert.certificate.v0",
+  "canonical_profile": "routecert-canonical-json-v0",
+  "certificate_id": "cert-example-001",
+  "created_at": "2026-08-13T00:00:00Z",
+  "expires_at": "2026-08-20T00:00:00Z",
+  "producer": {
+    "role": "route-certificate-builder",
+    "identity_ref": "local-example-producer"
+  },
+  "authority": {
+    "mode": "advisory_only",
+    "contains_final_judgment": false,
+    "consumer_responsibility": "consumer must adjudicate from complete source"
+  },
+  "task_binding": {
+    "id": "task-review-001",
+    "version": "v1",
+    "digest": "sha256:780e5e2e715079eb0de261220c56f698d35a3057c0b80b4c1a8c4b4345d38521"
+  },
+  "source_bindings": [
+    {
+      "id": "source-primary-001",
+      "version": "v1",
+      "digest": "sha256:34f23d2aee098ecaefae321f8eeca30c43509b8a29d56d366c89129bc017fa61"
+    }
+  ],
+  "rubric_binding": {
+    "id": "rubric-review-001",
+    "version": "v1",
+    "digest": "sha256:42d9f66225e203e6afcf242aa15ee499d30b3ee11f76ba6cf535f205429c7654"
+  },
+  "route": {
+    "ordered_stages": [
+      "confirm task and source bindings",
+      "read critical sections before cosmetic sections",
+      "check evidence references in order"
+    ],
+    "risk_order": [
+      "material correctness",
+      "unsupported escalation",
+      "provenance loss",
+      "cosmetic issues"
+    ],
+    "heading_evidence_inventory": [
+      {
+        "heading": "Scope",
+        "evidence_refs": [
+          "ev-001"
+        ]
+      },
+      {
+        "heading": "Critical Path",
+        "evidence_refs": [
+          "ev-002",
+          "ev-003"
+        ]
+      },
+      {
+        "heading": "Résumé",
+        "evidence_refs": [
+          "ev-004"
+        ]
+      },
+      {
+        "heading": "Resume",
+        "evidence_refs": [
+          "ev-005"
+        ]
+      }
+    ]
+  },
+  "scope": {
+    "in_scope": [
+      "material correctness risks",
+      "evidence-reference coverage"
+    ],
+    "out_of_scope": [
+      "final approval",
+      "production readiness"
+    ]
+  },
+  "uncertainty": {
+    "unknown": [],
+    "not_checked": [],
+    "uncontrolled": []
+  },
+  "conditions": {
+    "no_go": [],
+    "conflicts": [],
+    "staleness": [],
+    "reopen": []
+  },
+  "fallback": {
+    "raw_source_refs": [
+      {
+        "id": "source-primary-001",
+        "relative_ref": "sources/source-primary-001.json",
+        "digest": "sha256:34f23d2aee098ecaefae321f8eeca30c43509b8a29d56d366c89129bc017fa61",
+        "artifact_sha256": "sha256:84f03bff7d6c6fd911f40d783aef360eb4617304b0d1c33d1a6e5f5eff174d38"
+      }
+    ],
+    "missing_or_mismatch_behavior": "fail_closed_or_reopen_full_material"
+  },
+  "validation_state": {
+    "structural": "pass",
+    "referential": "pass",
+    "closure": "pass",
+    "artifact": "pass",
+    "semantic": "not_performed"
+  },
+  "lineage": {
+    "conceptual_lineage": "directional-route lineage retained with evidence boundary",
+    "dependencies": []
+  },
+  "producer_receipt_ref": {
+    "id": "producer-receipt-001",
+    "version": "routecert.producer-receipt.v0",
+    "digest": "sha256:087229e331e2dbf8f9d6a7144873496aee98b091d3cfb13713b1d8f29d92ef55",
+    "relative_ref": "receipts/producer-receipt-001.json",
+    "artifact_sha256": "sha256:4cc15a76f46c79c668c6e229fa469c02bacf4729c0802bf3b2f7286aedebc2b0"
+  }
+}

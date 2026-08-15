@@ -1,0 +1,32 @@
+{
+  "schema_version": "route-certificate.project.v1",
+  "name": "route-certificate",
+  "version": "0.1.0",
+  "status": "experimental_reference_implementation",
+  "license": "Apache-2.0",
+  "runtime": {
+    "language": "Python",
+    "requires": ">=3.10",
+    "dependencies": []
+  },
+  "profiles": {
+    "certificate": "routecert.certificate.v0",
+    "canonical_json": "routecert-canonical-json-v0",
+    "projection": "routecert-consumer-projection-v0",
+    "decision_envelope": "routecert.decision-envelope.v0",
+    "consumer_validation_receipt": "routecert.consumer-validation-receipt.v0"
+  },
+  "authority": "advisory_only",
+  "semantic_truth_claimed": false,
+  "security_claimed": false,
+  "authorization_claimed": false,
+  "baseline_execution_required": true,
+  "effects_applied": false,
+  "generic_core_imports_lingtai": false,
+  "reference_integrations": {
+    "lingtai": {
+      "tested_source_commit": "9bb869c4fd101ae1247db0e6b7839138f06abbe7",
+      "status": "removable_reference_contract"
+    }
+  }
+}

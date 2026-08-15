@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "route-certificate"
+version = "0.1.0"
+description = "Portable, source-bound, advisory navigation certificates with fail-closed validation"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [
+  {name = "Wang Runyuan"}
+]
+keywords = ["provenance", "validation", "advisory", "evidence", "agents"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/runyuan-wang/route-certificate"
+Repository = "https://github.com/runyuan-wang/route-certificate"
+Issues = "https://github.com/runyuan-wang/route-certificate/issues"
+
+[project.scripts]
+route-certificate = "route_certificate.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+route_certificate = ["schemas/*.json"]

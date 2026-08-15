@@ -1,0 +1,12 @@
+{
+  "id": "source-primary-001",
+  "version": "v1",
+  "title": "Candidate Evidence Packet",
+  "headings": [
+    "Scope",
+    "Critical Path",
+    "Résumé",
+    "Resume"
+  ],
+  "body_ref": "sources/source-primary-001.json"
+}

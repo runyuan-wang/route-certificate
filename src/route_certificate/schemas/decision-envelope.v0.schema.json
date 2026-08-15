@@ -1,0 +1,153 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/runyuan-wang/route-certificate/main/src/route_certificate/schemas/decision-envelope.v0.schema.json",
+  "title": "RouteCertificate consumer decision envelope v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "canonical_profile",
+    "projection_profile",
+    "consumed",
+    "policy_checks",
+    "included",
+    "deferred",
+    "producer_receipt_ref",
+    "consumer_validation_receipt_ref",
+    "source_availability",
+    "fallback_result",
+    "consumer_disposition",
+    "no_final_judgment",
+    "baseline_execution_required",
+    "effects_applied"
+  ],
+  "properties": {
+    "schema_version": {"const": "routecert.decision-envelope.v0"},
+    "canonical_profile": {"const": "routecert-canonical-json-v0"},
+    "projection_profile": {"const": "routecert-consumer-projection-v0"},
+    "consumed": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["certificate", "task", "sources", "rubric", "producer_receipt"],
+      "properties": {
+        "certificate": {"$ref": "#/$defs/ref_nullable_id"},
+        "task": {"$ref": "#/$defs/ref_nullable_id"},
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "version", "digest"],
+            "properties": {
+              "id": {"$ref": "#/$defs/id"},
+              "version": {"type": "string"},
+              "digest": {"$ref": "#/$defs/digest"}
+            }
+          }
+        },
+        "rubric": {
+          "anyOf": [
+            {"type": "null"},
+            {"$ref": "#/$defs/ref_nullable_id"}
+          ]
+        },
+        "producer_receipt": {"$ref": "#/$defs/ref_nullable_id"}
+      }
+    },
+    "policy_checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "projection_equivalence",
+        "current_validation",
+        "consumer_authority_preserved",
+        "source_override_refused",
+        "baseline_execution_required"
+      ],
+      "properties": {
+        "projection_equivalence": {"enum": ["pass", "fail"]},
+        "current_validation": {"enum": ["pass", "fail"]},
+        "consumer_authority_preserved": {"type": "boolean"},
+        "source_override_refused": {"type": "boolean"},
+        "baseline_execution_required": {"const": true}
+      }
+    },
+    "included": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "value"],
+        "properties": {
+          "path": {"$ref": "#/$defs/json_pointer"},
+          "value": {}
+        }
+      }
+    },
+    "deferred": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "digest"],
+        "properties": {
+          "path": {"$ref": "#/$defs/json_pointer"},
+          "digest": {"$ref": "#/$defs/digest"}
+        }
+      }
+    },
+    "producer_receipt_ref": {"$ref": "#/$defs/ref"},
+    "consumer_validation_receipt_ref": {"$ref": "#/$defs/ref"},
+    "source_availability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["producer_receipt_available", "raw_source_available", "complete_source_available"],
+      "properties": {
+        "producer_receipt_available": {"type": "boolean"},
+        "raw_source_available": {"type": "boolean"},
+        "complete_source_available": {"type": "boolean"}
+      }
+    },
+    "fallback_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "raw_source_available", "complete_source_available", "transition", "errors"],
+      "properties": {
+        "schema_version": {"const": "routecert.raw-fallback.v0"},
+        "raw_source_available": {"type": "boolean"},
+        "complete_source_available": {"type": "boolean"},
+        "transition": {"enum": ["already_loaded", "load_full_material", "not_loaded", "fail_closed_unavailable"]},
+        "errors": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "consumer_disposition": {
+      "enum": ["accepted_advisory", "rejected", "reopened_full", "failed_closed"]
+    },
+    "no_final_judgment": {"const": true},
+    "baseline_execution_required": {"const": true},
+    "effects_applied": {"const": false}
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "json_pointer": {"type": "string", "pattern": "^(?:|(?:/(?:[^~/]|~0|~1)*)*)$"},
+    "ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "digest"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "digest": {"$ref": "#/$defs/digest"}
+      }
+    },
+    "ref_nullable_id": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "digest"],
+      "properties": {
+        "id": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/id"}]},
+        "digest": {"type": ["string", "null"], "pattern": "^sha256:[0-9a-f]{64}$"}
+      }
+    }
+  }
+}

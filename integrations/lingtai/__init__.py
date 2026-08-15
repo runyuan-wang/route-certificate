@@ -1,0 +1,1 @@
+"""Removable LingTai adapter examples."""

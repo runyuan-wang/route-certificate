@@ -1,0 +1,185 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/runyuan-wang/route-certificate/main/src/route_certificate/schemas/certificate.v0.schema.json",
+  "title": "RouteCertificate advisory certificate v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "canonical_profile",
+    "certificate_id",
+    "created_at",
+    "expires_at",
+    "producer",
+    "authority",
+    "task_binding",
+    "source_bindings",
+    "rubric_binding",
+    "route",
+    "scope",
+    "uncertainty",
+    "conditions",
+    "fallback",
+    "validation_state",
+    "lineage",
+    "producer_receipt_ref"
+  ],
+  "properties": {
+    "schema_version": {"const": "routecert.certificate.v0"},
+    "canonical_profile": {"const": "routecert-canonical-json-v0"},
+    "certificate_id": {"$ref": "#/$defs/id"},
+    "created_at": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"},
+    "expires_at": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"},
+    "producer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "identity_ref"],
+      "properties": {
+        "role": {"type": "string"},
+        "identity_ref": {"type": "string"}
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "contains_final_judgment", "consumer_responsibility"],
+      "properties": {
+        "mode": {"const": "advisory_only"},
+        "contains_final_judgment": {"const": false},
+        "consumer_responsibility": {"type": "string"}
+      }
+    },
+    "task_binding": {"$ref": "#/$defs/binding"},
+    "source_bindings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/binding"}
+    },
+    "rubric_binding": {"$ref": "#/$defs/binding"},
+    "route": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["ordered_stages", "risk_order", "heading_evidence_inventory"],
+      "properties": {
+        "ordered_stages": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "risk_order": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+        "heading_evidence_inventory": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["heading", "evidence_refs"],
+            "properties": {
+              "heading": {"type": "string"},
+              "evidence_refs": {"type": "array", "items": {"$ref": "#/$defs/id"}}
+            }
+          }
+        }
+      }
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["in_scope", "out_of_scope"],
+      "properties": {
+        "in_scope": {"type": "array", "items": {"type": "string"}},
+        "out_of_scope": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "uncertainty": {"$ref": "#/$defs/trigger_set"},
+    "conditions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["no_go", "conflicts", "staleness", "reopen"],
+      "properties": {
+        "no_go": {"type": "array"},
+        "conflicts": {"type": "array"},
+        "staleness": {"type": "array"},
+        "reopen": {"type": "array"}
+      }
+    },
+    "fallback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["raw_source_refs", "missing_or_mismatch_behavior"],
+      "properties": {
+        "raw_source_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/artifact_ref"}
+        },
+        "missing_or_mismatch_behavior": {"type": "string"}
+      }
+    },
+    "validation_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["structural", "referential", "closure", "artifact", "semantic"],
+      "properties": {
+        "structural": {"const": "pass"},
+        "referential": {"const": "pass"},
+        "closure": {"const": "pass"},
+        "artifact": {"const": "pass"},
+        "semantic": {"const": "not_performed"}
+      }
+    },
+    "lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["conceptual_lineage", "dependencies"],
+      "properties": {
+        "conceptual_lineage": {"type": "string"},
+        "dependencies": {"type": "array"}
+      }
+    },
+    "producer_receipt_ref": {"$ref": "#/$defs/artifact_ref_with_version"}
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version", "digest"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "version": {"type": "string"},
+        "digest": {"$ref": "#/$defs/digest"}
+      }
+    },
+    "artifact_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "relative_ref", "digest", "artifact_sha256"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "relative_ref": {"type": "string"},
+        "digest": {"$ref": "#/$defs/digest"},
+        "artifact_sha256": {"$ref": "#/$defs/digest"}
+      }
+    },
+    "artifact_ref_with_version": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version", "digest", "relative_ref", "artifact_sha256"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "version": {"type": "string"},
+        "digest": {"$ref": "#/$defs/digest"},
+        "relative_ref": {"type": "string"},
+        "artifact_sha256": {"$ref": "#/$defs/digest"}
+      }
+    },
+    "trigger_set": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["unknown", "not_checked", "uncontrolled"],
+      "properties": {
+        "unknown": {"type": "array"},
+        "not_checked": {"type": "array"},
+        "uncontrolled": {"type": "array"}
+      }
+    }
+  }
+}

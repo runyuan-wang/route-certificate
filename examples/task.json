@@ -1,0 +1,6 @@
+{
+  "id": "task-review-001",
+  "version": "v1",
+  "objective": "Review the candidate source for material correctness risks.",
+  "rubric_ref": "rubric-review-001"
+}
